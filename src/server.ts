@@ -1,9 +1,8 @@
-// Import necessary modules
 import express, { Application, Request, Response, NextFunction } from 'express';
-import morgan from 'morgan'; // For HTTP request logging
-import cors from 'cors'; // For Cross-Origin Resource Sharing
-import dotenv from 'dotenv'; // For loading environment variables
-import { db } from './utils/database'; // Database connection
+import morgan from 'morgan'; 
+import cors from 'cors'; 
+import dotenv from 'dotenv'; 
+import { db } from './utils/database'; 
 import userRoutes from './routes/userRoutes';
 import postRoutes from './routes/postRoutes';
 import authRoutes from './routes/authRoutes';
@@ -34,12 +33,12 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 const PORT = process.env.PORT || 3000;
 
 // Initialize database connection
-db.query('SELECT 1') // Replace 'SELECT 1' with your actual SQL query
+db.query('SELECT 1') 
     .then(() => {
         app.listen(PORT, () => {
             console.log(`Server is running on http://localhost:${PORT}`);
         });
     })
     .catch((error) => {
-        console.error('Unable to connect to the database:', error);
+        console.error('Unable to connect to the app database:', error);
     });

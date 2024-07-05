@@ -3,9 +3,12 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { User } from '../models/User';
 import { authService } from '../services/authService';
+import dotenv from 'dotenv';
 
-const saltRounds = 10;
-const jwtSecret = 'abc12345678900111993';
+dotenv.config();
+
+const saltRounds = process.env.SALT_ROUNDS !== undefined ? parseInt(process.env.SALT_ROUNDS) : 10;
+const jwtSecret = process.env.JWT_SECRET;
 
 export const signUp = async (req: Request, res: Response): Promise<void> => {
     const { username, email, password } = req.body;
@@ -26,7 +29,7 @@ export const signUp = async (req: Request, res: Response): Promise<void> => {
             password: hashedPassword
         };
         const createdUser = await authService.createUser(newUser);
-        const token = jwt.sign({ userId: createdUser.id, email: createdUser.email }, jwtSecret);
+        const token = jwtSecret ? jwt.sign({ userId: createdUser.id, email: createdUser.email }, jwtSecret) : '';
 
         res.status(201).json({ user: createdUser, token });
     } catch (error) {
@@ -54,7 +57,7 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
         }
 
         // Create JWT token
-        const token = jwt.sign({ userId: existingUser.id, email: existingUser.email }, jwtSecret);
+        const token = jwtSecret ? jwt.sign({ userId: existingUser.id, email: existingUser.email }, jwtSecret) : '';
 
         res.status(200).json({ user: existingUser, token });
     } catch (error) {

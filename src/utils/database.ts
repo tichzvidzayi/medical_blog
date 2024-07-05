@@ -1,11 +1,13 @@
-// ../utils/database.ts
 import mysql from 'mysql2/promise';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const connection = mysql.createPool({
-  host: 'localhost',
-  user: 'your_database_user',
-  password: 'your_database_password',
-  database: 'your_database_name',
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 export const db = {

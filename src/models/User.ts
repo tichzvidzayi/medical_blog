@@ -1,9 +1,14 @@
-// src/models/User.ts
-
+// models/User.ts
 export interface User {
-    id?: number;
+    id: number;
     username: string;
     email: string;
     password: string;
-    created_at?: Date;
+}
+
+export interface Post {
+    id: number;
+    userId: number;
+    title: string;
+    content: string;
 }

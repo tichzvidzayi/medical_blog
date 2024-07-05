@@ -1,7 +1,9 @@
-import { User } from '../models/User';
+import { User, Post } from '../models/User';
 import { db } from '../utils/database'; // Assuming you have a database connection utility
+import bcrypt from 'bcrypt'; 
+import { generateUniqueId } from '../utils/generateUniqueId';
 
-export const authService = {
+const authService = {
     async findUserByEmail(email: string): Promise<User | null> {
         const [rows] = await db.query('SELECT * FROM users WHERE email = ?', [email]);
         return rows.length > 0 ? rows[0] : null;
@@ -16,7 +18,42 @@ export const authService = {
         const { username, email, password } = newUser;
         const [result] = await db.query('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, password]);
         const insertId = result.insertId;
-        return { id: insertId, ...newUser };
+        return { id: insertId, username, email, password };
+    },
+    async createPost({ title, content, userId }: { title: string; content: string; userId: number }): Promise<Post> {
+        // Assuming you have a function to generate a unique ID, e.g., generateUniqueId()
+        const id = generateUniqueId(); // Replace this with your actual logic to generate a unique ID
+        const newPost: Post = {
+            id: Number(id), // Convert the string to a number
+            title,
+            content,
+            userId
+        };
+
+        return newPost;
+    },
+    async getPostById(id: number): Promise<Post | null> {
+        const [rows] = await db.query('SELECT * FROM posts WHERE id = ?', [id]);
+        return rows.length > 0 ? rows[0] : null;
+    },
+
+    async getAllPosts(): Promise<Post[]> {
+        const [rows] = await db.query('SELECT * FROM posts');
+        return rows;
+    },
+
+    async updatePost(postId: number, postData: Partial<Post>): Promise<Post> {
+        const { title, content } = postData;
+        await db.query('UPDATE posts SET title = ?, content = ? WHERE id = ?', [title, content, postId]);
+        const updatedPost = await this.getPostById(postId);
+        if (!updatedPost) {
+            throw new Error('Post not found');
+        }
+        return updatedPost;
+    },
+
+    async deletePost(postId: number): Promise<void> {
+        await db.query('DELETE FROM posts WHERE id = ?', [postId]);
     },
 
     async updateUser(id: number, userData: Partial<User>): Promise<User> {
@@ -38,12 +75,14 @@ export const authService = {
         if (!user) {
             return null; // User with this email doesn't exist
         }
-
-        const passwordMatch = user.password === password; // Example, replace with proper bcrypt comparison
+    
+        const passwordMatch = await bcrypt.compare(password, user.password); // Use bcrypt to compare the passwords
         if (!passwordMatch) {
             return null; // Passwords don't match
         }
-
+    
         return user;
     }
 };
+
+export { authService };

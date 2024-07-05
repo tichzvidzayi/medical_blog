@@ -1,5 +1,3 @@
-// src/controllers/authController.ts
-
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -7,32 +5,27 @@ import { User } from '../models/User';
 import { authService } from '../services/authService';
 
 const saltRounds = 10;
-const jwtSecret = 'your_jwt_secret';
+const jwtSecret = 'abc12345678900111993';
 
 export const signUp = async (req: Request, res: Response): Promise<void> => {
     const { username, email, password } = req.body;
 
     try {
-        // Check if user already exists
         const existingUser = await authService.findUserByEmail(email);
         if (existingUser) {
             res.status(400).json({ error: 'User with this email already exists' });
             return;
         }
 
-        // Hash the password
         const hashedPassword = await bcrypt.hash(password, saltRounds);
 
-        // Create new user
         const newUser: User = {
-            username,
-            email,
+            id: 0, 
+            username: req.body.username,
+            email: req.body.email,
             password: hashedPassword
         };
-
         const createdUser = await authService.createUser(newUser);
-
-        // Create JWT token
         const token = jwt.sign({ userId: createdUser.id, email: createdUser.email }, jwtSecret);
 
         res.status(201).json({ user: createdUser, token });

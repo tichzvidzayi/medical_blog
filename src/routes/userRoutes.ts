@@ -1,5 +1,3 @@
-// src/routes/userRoutes.ts
-
 import express from 'express';
 import { getUserProfile, updateUserProfile, deleteUserAccount } from '../controllers/userController';
 

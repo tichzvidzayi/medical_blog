@@ -1,5 +1,5 @@
 import { User, Post } from '../models/User';
-import { db } from '../utils/database'; // Assuming you have a database connection utility
+import { db } from '../utils/database'; 
 import bcrypt from 'bcrypt'; 
 import { generateUniqueId } from '../utils/generateUniqueId';
 
@@ -21,10 +21,9 @@ const authService = {
         return { id: insertId, username, email, password };
     },
     async createPost({ title, content, userId }: { title: string; content: string; userId: number }): Promise<Post> {
-        // Assuming you have a function to generate a unique ID, e.g., generateUniqueId()
-        const id = generateUniqueId(); // Replace this with your actual logic to generate a unique ID
+        const id = generateUniqueId(); 
         const newPost: Post = {
-            id: Number(id), // Convert the string to a number
+            id: Number(id),
             title,
             content,
             userId
@@ -73,12 +72,12 @@ const authService = {
     async verifyUserCredentials(email: string, password: string): Promise<User | null> {
         const user = await this.findUserByEmail(email);
         if (!user) {
-            return null; // User with this email doesn't exist
+            return null;
         }
     
-        const passwordMatch = await bcrypt.compare(password, user.password); // Use bcrypt to compare the passwords
+        const passwordMatch = await bcrypt.compare(password, user.password); 
         if (!passwordMatch) {
-            return null; // Passwords don't match
+            return null; 
         }
     
         return user;

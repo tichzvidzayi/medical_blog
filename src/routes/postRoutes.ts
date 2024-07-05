@@ -1,5 +1,3 @@
-// src/routes/postRoutes.ts
-
 import express from 'express';
 import { createPost, getAllPosts, getPostById, updatePost, deletePost } from '../controllers/postController';
 

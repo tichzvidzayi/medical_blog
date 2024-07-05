@@ -66,3 +66,17 @@ You can generate API documentation using Swagger or other tools. To set up Swagg
 Access the Swagger UI by navigating to http://localhost:<your_port>/docs.
 
 
+.envexample File
+The .envexample file serves as a template for setting up environment variables. Copy and rename it to .env and update with your specific configurations:
+
+# Database configuration
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=password
+DB_NAME=med_blog_db
+
+# JWT Secret
+JWT_SECRET=your_jwt_secret_here
+
+# Other configurations (if applicable)
+PORT=3000

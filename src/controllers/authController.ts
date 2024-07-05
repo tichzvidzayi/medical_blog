@@ -42,21 +42,18 @@ export const signIn = async (req: Request, res: Response): Promise<void> => {
     const { email, password } = req.body;
 
     try {
-        // Check if user exists
         const existingUser = await authService.findUserByEmail(email);
         if (!existingUser) {
             res.status(404).json({ error: 'User not found' });
             return;
         }
 
-        // Validate password
         const isPasswordValid = await bcrypt.compare(password, existingUser.password);
         if (!isPasswordValid) {
             res.status(401).json({ error: 'Invalid password' });
             return;
         }
 
-        // Create JWT token
         const token = jwtSecret ? jwt.sign({ userId: existingUser.id, email: existingUser.email }, jwtSecret) : '';
 
         res.status(200).json({ user: existingUser, token });

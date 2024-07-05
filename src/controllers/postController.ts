@@ -15,7 +15,7 @@ export const createPost = async (req: Request, res: Response): Promise<void> => 
 
         res.status(201).json({ post: createdPost });
     } catch (error) {
-      //  console.error('Error creating post:', error);
+        console.error('Error creating post:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
@@ -27,7 +27,7 @@ export const getAllPosts = async (req: Request, res: Response): Promise<void> =>
 
         res.status(200).json({ posts });
     } catch (error) {
-      //  console.error('Error fetching posts:', error);
+        console.error('Error fetching posts:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
@@ -45,7 +45,7 @@ export const getPostById = async (req: Request, res: Response): Promise<void> =>
 
         res.status(200).json({ post });
     } catch (error) {
-       // console.error('Error fetching post:', error);
+        console.error('Error fetching post:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
@@ -59,7 +59,7 @@ export const updatePost = async (req: Request, res: Response): Promise<void> => 
 
         res.status(200).json({ post: updatedPost });
     } catch (error) {
-       // console.error('Error updating post:', error);
+        console.error('Error updating post:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };
@@ -72,7 +72,7 @@ export const deletePost = async (req: Request, res: Response): Promise<void> => 
 
         res.status(204).end();
     } catch (error) {
-      //  console.error('Error deleting post:', error);
+        console.error('Error deleting post:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };

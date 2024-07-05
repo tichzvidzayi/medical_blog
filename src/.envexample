@@ -1,0 +1,9 @@
+PORT=3023
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=password
+DB_NAME=blog_database
+
+SALT_ROUNDS=10
+JWT_SECRET=19pIl09hgfTXmjYfRtfd4L320o323sL89ZLtrPSDtab993hoD

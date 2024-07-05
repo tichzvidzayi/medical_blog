@@ -1,5 +1,3 @@
-// src/controllers/userController.ts
-
 import { Request, Response } from 'express';
 import { User } from '../models/User';
 import { authService } from '../services/authService';
@@ -40,7 +38,7 @@ export const deleteUserAccount = async (req: Request, res: Response): Promise<vo
         await authService.deleteUser(userId);
         res.status(204).end();
     } catch (error) {
-      //  console.error('Error deleting user account:', error);
+        console.error('Error deleting user account:', error);
         res.status(500).json({ error: 'Internal server error' });
     }
 };

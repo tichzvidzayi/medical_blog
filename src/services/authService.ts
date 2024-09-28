@@ -76,10 +76,11 @@ const authService = {
         }
     
         const passwordMatch = await bcrypt.compare(password, user.password); 
+        
         if (!passwordMatch) {
             return null; 
         }
-    
+
         return user;
     }
 };

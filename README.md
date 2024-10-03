@@ -1,4 +1,4 @@
-# Med Blog API
+# Medical Blog API
 
 This is a RESTful API for a personal blog platform focused on medical or health-related content.
 
